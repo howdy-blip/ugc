@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kiandra Trickett — UGC & TikTok Creator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:       #0042b0;
+      --blue-dark:  #00308a;
+      --blue-mid:   #1a5cd4;
+      --blue-light: #e5f0ff;
+      --blue-pale:  #f0f6ff;
+      --white:      #ffffff;
+      --text:       #0d1b35;
+      --muted:      #4a5a7a;
+      --radius-sm:  12px;
+      --radius-md:  20px;
+      --radius-lg:  32px;
+      --radius-xl:  48px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--blue-pale);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 55%, var(--blue-mid) 100%);
+      border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+      padding: 60px 40px 80px;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -120px; right: -120px;
+      width: 420px; height: 420px;
+      background: rgba(255,255,255,.06);
+      border-radius: 50%;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: -80px;
+      width: 280px; height: 280px;
+      background: rgba(255,255,255,.04);
+      border-radius: 50%;
+    }
+
+    .hero-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 48px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-handle {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      opacity: .7;
+      margin-bottom: 12px;
+    }
+    .hero-name {
+      font-size: clamp(2.6rem, 6vw, 4.2rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -.02em;
+      margin-bottom: 18px;
+    }
+    .hero-tagline {
+      font-size: 1.15rem;
+      font-weight: 400;
+      opacity: .85;
+      max-width: 520px;
+      margin-bottom: 32px;
+      line-height: 1.65;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+    .stat-pill {
+      background: rgba(255,255,255,.15);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: var(--radius-xl);
+      padding: 10px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .stat-pill strong {
+      font-size: 1.35rem;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+    .stat-pill span {
+      font-size: .72rem;
+      font-weight: 500;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      opacity: .75;
+    }
+
+    .hero-cta {
+      display: inline-block;
+      background: var(--white);
+      color: var(--blue);
+      font-size: .95rem;
+      font-weight: 700;
+      padding: 14px 30px;
+      border-radius: var(--radius-xl);
+      text-decoration: none;
+      transition: transform .18s, box-shadow .18s;
+      box-shadow: 0 4px 24px rgba(0,0,0,.18);
+    }
+    .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,.25); }
+
+    .hero-photo {
+      width: 200px;
+      height: 200px;
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,.12);
+      border: 3px solid rgba(255,255,255,.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .hero-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hero-photo-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: .5;
+      font-size: .75rem;
+      font-weight: 600;
+      text-align: center;
+      padding: 16px;
+    }
+    .hero-photo-placeholder svg { opacity: .7; }
+
+    /* ── LAYOUT WRAPPER ── */
+    .page-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── SECTION COMMON ── */
+    section { padding: 72px 0; }
+    .section-label {
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      font-weight: 800;
+      letter-spacing: -.02em;
+      margin-bottom: 12px;
+    }
+    .section-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.7;
+    }
+    .section-header { margin-bottom: 44px; }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+    .about-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 32px;
+      box-shadow: 0 2px 16px rgba(0,66,176,.07);
+    }
+    .about-bio {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--text);
+    }
+    .about-bio em { color: var(--blue); font-style: normal; font-weight: 600; }
+
+    .topics-title {
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+    .topics-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .topic-tag {
+      background: var(--blue-light);
+      color: var(--blue);
+      font-size: .82rem;
+      font-weight: 600;
+      padding: 7px 16px;
+      border-radius: var(--radius-xl);
+      border: 1.5px solid rgba(0,66,176,.15);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .topic-tag .emoji { font-size: .9rem; }
+
+    /* ── PROOF (CASE STUDIES) ── */
+    .proof-section { background: var(--white); border-radius: var(--radius-lg); padding: 60px 40px; }
+    .proof-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .proof-card {
+      border-radius: var(--radius-md);
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .proof-card.blue {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-mid) 100%);
+      color: var(--white);
+    }
+    .proof-card.light {
+      background: var(--blue-light);
+      color: var(--text);
+      border: 1.5px solid rgba(0,66,176,.12);
+    }
+    .proof-card-icon {
+      width: 48px; height: 48px;
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+    }
+    .blue .proof-card-icon { background: rgba(255,255,255,.15); }
+    .light .proof-card-icon { background: rgba(0,66,176,.1); }
+
+    .proof-result {
+      font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: -.02em;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+    .blue .proof-result { color: var(--white); }
+    .light .proof-result { color: var(--blue); }
+
+    .proof-detail {
+      font-size: .95rem;
+      line-height: 1.65;
+      opacity: .85;
+      margin-bottom: 16px;
+    }
+
+    .proof-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: var(--radius-xl);
+    }
+    .blue .proof-badge { background: rgba(255,255,255,.2); color: var(--white); }
+    .light .proof-badge { background: rgba(0,66,176,.12); color: var(--blue); }
+
+    /* ── PORTFOLIO ── */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .video-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0,66,176,.07);
+      transition: transform .2s, box-shadow .2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .video-card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(0,66,176,.13); }
+    .video-card iframe {
+      width: 100%;
+      height: 560px;
+      border: none;
+      display: block;
+      flex-shrink: 0;
+    }
+    .video-card-label {
+      padding: 14px 18px;
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: .04em;
+      border-top: 1px solid var(--blue-light);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .platform-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .dot-tiktok { background: #010101; }
+    .dot-instagram { background: #e1306c; }
+
+    /* Featured video card */
+    .video-card.featured {
+      border: 2px solid var(--blue);
+      box-shadow: 0 4px 28px rgba(0,66,176,.18);
+    }
+    .video-card.featured .video-card-label {
+      background: var(--blue);
+      color: var(--white);
+      border-top: none;
+    }
+    .video-card.featured .video-card-label .platform-dot { background: rgba(255,255,255,.6); }
+
+    /* ── SERVICES ── */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .service-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 32px 28px;
+      box-shadow: 0 2px 16px rgba(0,66,176,.07);
+      border-top: 4px solid var(--blue);
+    }
+    .service-icon {
+      width: 52px; height: 52px;
+      background: var(--blue-light);
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+    .service-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .service-desc {
+      font-size: .9rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ── CONTACT ── */
+    .contact-section {
+      background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 100%);
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      padding: 72px 40px;
+      color: var(--white);
+      text-align: center;
+    }
+    .contact-section .section-title { color: var(--white); }
+    .contact-section .section-sub { color: rgba(255,255,255,.75); margin: 0 auto 36px; }
+    .contact-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255,255,255,.12);
+      backdrop-filter: blur(8px);
+      border: 1.5px solid rgba(255,255,255,.25);
+      border-radius: var(--radius-xl);
+      padding: 18px 32px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--white);
+      text-decoration: none;
+      margin-bottom: 16px;
+      transition: background .18s;
+    }
+    .contact-email:hover { background: rgba(255,255,255,.22); }
+    .contact-note {
+      font-size: .85rem;
+      opacity: .6;
+    }
+    .contact-services {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 36px;
+    }
+    .contact-service-pill {
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: var(--radius-xl);
+      padding: 8px 20px;
+      font-size: .82rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-photo { width: 140px; height: 140px; order: -1; }
+      .about-grid { grid-template-columns: 1fr; }
+      .proof-grid { grid-template-columns: 1fr; }
+      .services-grid { grid-template-columns: 1fr; }
+      .portfolio-grid { grid-template-columns: 1fr; }
+      .proof-section { padding: 40px 24px; }
+      .contact-section { padding: 56px 24px; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+      .hero { padding: 48px 24px 64px; border-radius: 0 0 var(--radius-lg) var(--radius-lg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── HERO ── -->
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <p class="hero-handle">@kiandratrickett</p>
+        <h1 class="hero-name">Kiandra<br>Trickett</h1>
+        <p class="hero-tagline">Authentic content creator with a loyal, engaged audience. I don't follow a niche — I follow genuine curiosity, and brands that resonate with how real people actually live.</p>
+        <div class="hero-stats">
+          <div class="stat-pill">
+            <strong>90.7K</strong>
+            <span>Followers</span>
+          </div>
+          <div class="stat-pill">
+            <strong>11%</strong>
+            <span>Engagement</span>
+          </div>
+          <div class="stat-pill">
+            <strong>3</strong>
+            <span>Platforms</span>
+          </div>
+        </div>
+        <a href="#contact" class="hero-cta">Work With Me</a>
+      </div>
+      <div class="hero-photo">
+        <!-- Replace src below with your photo path e.g. src="photo.jpg" -->
+        <div class="hero-photo-placeholder">
+          <svg width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
+          </svg>
+          Add your photo here
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── ABOUT ── -->
+  <section>
+    <div class="page-wrap">
+      <div class="section-header">
+        <p class="section-label">About</p>
+        <h2 class="section-title">Real life. Real people. Real results.</h2>
+        <p class="section-sub">Content that converts because it never feels like an ad.</p>
+      </div>
+      <div class="about-grid">
+        <div class="about-card">
+          <p class="about-bio">
+            I'm a <em>Tasmanian creator</em> with a broad, curious following who trusts my recommendations. My content spans everyday life — I talk about what I'm actually buying, using, and experiencing, which is exactly why my audience listens.<br><br>
+            I don't do scripted sell-jobs. I do <em>honest storytelling</em> that happens to drive real purchasing decisions — from $40K cars to health and wellness products.
+          </p>
+        </div>
+        <div class="about-card">
+          <p class="topics-title">Content Topics</p>
+          <div class="topics-grid">
+            <span class="topic-tag"><span class="emoji">💰</span> Money Saving Hacks</span>
+            <span class="topic-tag"><span class="emoji">✨</span> Skincare</span>
+            <span class="topic-tag"><span class="emoji">🌿</span> Natural Products</span>
+            <span class="topic-tag"><span class="emoji">🏋️</span> Health & Wellbeing</span>
+            <span class="topic-tag"><span class="emoji">✈️</span> Travel</span>
+            <span class="topic-tag"><span class="emoji">🌊</span> Tasmania</span>
+            <span class="topic-tag"><span class="emoji">🌱</span> Sustainability</span>
+            <span class="topic-tag"><span class="emoji">🎯</span> Lifestyle</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PROOF ── -->
+  <section style="padding-top: 0;">
+    <div class="page-wrap">
+      <div class="proof-section">
+        <div class="section-header">
+          <p class="section-label">Proof It Converts</p>
+          <h2 class="section-title">Organic content. Tangible sales.</h2>
+          <p class="section-sub">These results came from posts made purely because I wanted to share — no paid brief, no script.</p>
+        </div>
+        <div class="proof-grid">
+
+          <div class="proof-card blue">
+            <div class="proof-card-icon">🚗</div>
+            <div class="proof-result">$40,000 Sale</div>
+            <p class="proof-detail">
+              Posted a casual TikTok after attending a Geely launch event — no paid partnership, no script. Despite lower view counts than usual, the video directly resulted in the sale of a 2025 Geely.
+            </p>
+            <span class="proof-badge">↑ Organic TikTok</span>
+          </div>
+
+          <div class="proof-card light">
+            <div class="proof-card-icon">💧</div>
+            <div class="proof-result">8 Orders</div>
+            <p class="proof-detail">
+              A single Instagram Reel drove 8 product purchases — a health &amp; wellness item with a 3-month filter replacement cycle, meaning recurring revenue generated for the brand from one post.
+            </p>
+            <span class="proof-badge">↑ Organic Instagram Reel</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PORTFOLIO ── -->
+  <section>
+    <div class="page-wrap">
+      <div class="section-header">
+        <p class="section-label">Portfolio</p>
+        <h2 class="section-title">Content Highlights</h2>
+        <p class="section-sub">A selection of top-performing and most representative videos across TikTok and Instagram.</p>
+      </div>
+
+      <div class="portfolio-grid">
+
+        <!-- Featured: Geely car video -->
+        <div class="video-card featured">
+          <iframe
+            src="https://www.tiktok.com/embed/v2/7532793010736663815?lang=en-US"
+            allow="encrypted-media"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+          <div class="video-card-label">
+            <span class="platform-dot"></span>
+            Featured — Sold a $40K Car (Organic)
+          </div>
+        </div>
+
+        <!-- Top TikToks -->
+        <div class="video-card">
+          <iframe
+            src="https://www.tiktok.com/embed/v2/7510113994175188231?lang=en-US"
+            allow="encrypted-media"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+          <div class="video-card-label">
+            <span class="platform-dot dot-tiktok"></span>
+            TikTok
+          </div>
+        </div>
+
+        <div class="video-card">
+          <iframe
+            src="https://www.tiktok.com/embed/v2/7481175481056840978?lang=en-US"
+            allow="encrypted-media"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+          <div class="video-card-label">
+            <span class="platform-dot dot-tiktok"></span>
+            TikTok
+          </div>
+        </div>
+
+        <div class="video-card">
+          <iframe
+            src="https://www.tiktok.com/embed/v2/7470649796727000328?lang=en-US"
+            allow="encrypted-media"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+          <div class="video-card-label">
+            <span class="platform-dot dot-tiktok"></span>
+            TikTok
+          </div>
+        </div>
+
+        <div class="video-card">
+          <iframe
+            src="https://www.tiktok.com/embed/v2/7320057422985415944?lang=en-US"
+            allow="encrypted-media"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+          <div class="video-card-label">
+            <span class="platform-dot dot-tiktok"></span>
+            TikTok
+          </div>
+        </div>
+
+        <div class="video-card">
+          <iframe
+            src="https://www.tiktok.com/embed/v2/7299614651732593927?lang=en-US"
+            allow="encrypted-media"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+          <div class="video-card-label">
+            <span class="platform-dot dot-tiktok"></span>
+            TikTok
+          </div>
+        </div>
+
+        <div class="video-card">
+          <iframe
+            src="https://www.tiktok.com/embed/v2/7268400168393854226?lang=en-US"
+            allow="encrypted-media"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+          <div class="video-card-label">
+            <span class="platform-dot dot-tiktok"></span>
+            TikTok
+          </div>
+        </div>
+
+        <div class="video-card">
+          <iframe
+            src="https://www.tiktok.com/embed/v2/7261348509553560833?lang=en-US"
+            allow="encrypted-media"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+          <div class="video-card-label">
+            <span class="platform-dot dot-tiktok"></span>
+            TikTok
+          </div>
+        </div>
+
+        <div class="video-card">
+          <iframe
+            src="https://www.tiktok.com/embed/v2/7232815731358928130?lang=en-US"
+            allow="encrypted-media"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+          <div class="video-card-label">
+            <span class="platform-dot dot-tiktok"></span>
+            TikTok
+          </div>
+        </div>
+
+        <div class="video-card">
+          <iframe
+            src="https://www.tiktok.com/embed/v2/7224018452346965249?lang=en-US"
+            allow="encrypted-media"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+          <div class="video-card-label">
+            <span class="platform-dot dot-tiktok"></span>
+            TikTok
+          </div>
+        </div>
+
+        <!-- Instagram Reel (8 orders) -->
+        <div class="video-card">
+          <iframe
+            src="https://www.instagram.com/reel/DNaSZTDTSJw/embed/"
+            allow="encrypted-media"
+            allowfullscreen
+            loading="lazy"
+            style="height:560px;">
+          </iframe>
+          <div class="video-card-label">
+            <span class="platform-dot dot-instagram"></span>
+            Instagram — 8 Product Orders
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SERVICES ── -->
+  <section style="padding-top: 0;">
+    <div class="page-wrap">
+      <div class="section-header">
+        <p class="section-label">Services</p>
+        <h2 class="section-title">What I offer</h2>
+        <p class="section-sub">Open to both posting on my own channels and creating content for yours. Flat fee or contra — let's chat.</p>
+      </div>
+      <div class="services-grid">
+
+        <div class="service-card">
+          <div class="service-icon">📱</div>
+          <h3 class="service-name">TikTok Videos</h3>
+          <p class="service-desc">Authentic, on-brand content posted to my 90.7K follower audience. Ideal for awareness, discovery, and product launches that need a real voice behind them.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">🎬</div>
+          <h3 class="service-name">UGC Content</h3>
+          <p class="service-desc">Raw, camera-ready video assets delivered directly for your brand's own channels, ads, or paid promotion — no posting to my feed required.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">🌀</div>
+          <h3 class="service-name">Instagram Stories</h3>
+          <p class="service-desc">Swipe-up style storytelling designed for direct engagement and link-driven traffic. Short-form and personal — the format audiences trust most.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CONTACT ── -->
+  <footer class="contact-section" id="contact">
+    <p class="section-label" style="color:rgba(255,255,255,.6);">Get In Touch</p>
+    <h2 class="section-title">Let's work together</h2>
+    <p class="section-sub">Reach out to discuss pricing, contra arrangements, or to ask any questions. I'd love to hear what you have in mind.</p>
+    <a href="mailto:howdy@broadcollective.com.au" class="contact-email">
+      <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/>
+      </svg>
+      howdy@broadcollective.com.au
+    </a>
+    <br>
+    <p class="contact-note">Open to paid partnerships and contra arrangements</p>
+    <div class="contact-services">
+      <span class="contact-service-pill">TikTok Videos</span>
+      <span class="contact-service-pill">UGC Content</span>
+      <span class="contact-service-pill">Instagram Stories</span>
+    </div>
+  </footer>
+
+</body>
+</html>
