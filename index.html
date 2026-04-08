@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kiandra Trickett — UGC & TikTok Creator</title>
+  <title>Kiandra Trickett, UGC and TikTok Creator</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -441,6 +441,160 @@
       letter-spacing: .04em;
     }
 
+    /* ── GOLD CREATOR BADGE ── */
+    .gold-creator-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(255,213,0,.28) 0%, rgba(255,180,0,.18) 100%);
+      border: 1.5px solid rgba(255,213,0,.55);
+      border-radius: var(--radius-xl);
+      padding: 8px 18px;
+      font-size: .8rem;
+      font-weight: 700;
+      color: #ffe566;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .gold-creator-badge .gold-star { font-size: 1rem; }
+
+    /* ── VIDEO STATS BAR ── */
+    .video-stats-bar {
+      padding: 8px 14px;
+      background: var(--blue-pale);
+      border-bottom: 1px solid var(--blue-light);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .view-count, .share-count {
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .share-count { color: var(--blue); }
+
+    /* Featured: TGI Fridays */
+    .video-card.tgifridays {
+      border: 2px solid #d4530f;
+      box-shadow: 0 4px 28px rgba(212,83,15,.2);
+    }
+    .video-card.tgifridays .video-stats-bar {
+      background: #fff5f0;
+      border-bottom: 1px solid #ffd5be;
+    }
+    .video-card.tgifridays .view-count { color: #8a3000; }
+    .video-card.tgifridays .share-count { color: #d4530f; }
+    .video-card.tgifridays .video-card-label {
+      background: linear-gradient(90deg, #d4530f 0%, #f06a28 100%);
+      color: var(--white);
+      border-top: none;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      padding: 14px 18px;
+    }
+    .video-card.tgifridays .video-card-label .label-title {
+      font-size: .85rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .video-card.tgifridays .video-card-label .label-sub {
+      font-size: .72rem;
+      font-weight: 500;
+      opacity: .85;
+    }
+    .video-card.tgifridays .video-card-label .platform-dot { background: rgba(255,255,255,.7); }
+
+    /* Proof value sub-line */
+    .proof-value-line {
+      font-size: .95rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      opacity: .9;
+    }
+    .light .proof-value-line { color: var(--blue); }
+
+    /* ── EDIT MODE ── */
+    #edit-toolbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: var(--blue-dark);
+      color: var(--white);
+      padding: 10px 20px;
+      display: none;
+      align-items: center;
+      gap: 14px;
+      z-index: 9999;
+      font-size: .88rem;
+      font-weight: 600;
+      box-shadow: 0 2px 20px rgba(0,0,0,.25);
+    }
+    .edit-toolbar-info {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .edit-pulse {
+      width: 9px; height: 9px;
+      background: #4ade80;
+      border-radius: 50%;
+      animation: editpulse 2s infinite;
+    }
+    @keyframes editpulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+    .edit-toolbar-btn {
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.25);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: .8rem;
+      font-weight: 600;
+      padding: 7px 16px;
+      border-radius: var(--radius-xl);
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .edit-toolbar-btn:hover { background: rgba(255,255,255,.25); }
+    .edit-toolbar-btn.danger { background: rgba(220,60,60,.22); border-color: rgba(220,60,60,.4); }
+    .edit-toolbar-btn.danger:hover { background: rgba(220,60,60,.38); }
+    body.edit-mode { padding-top: 46px; }
+    body.edit-mode [contenteditable="true"]:hover {
+      outline: 2px dashed rgba(0,66,176,.55);
+      outline-offset: 3px;
+      border-radius: 4px;
+      cursor: text;
+    }
+    body.edit-mode [contenteditable="true"]:focus {
+      outline: 2px solid var(--blue);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+    #edit-fab {
+      position: fixed;
+      bottom: 24px; right: 24px;
+      width: 50px; height: 50px;
+      background: var(--blue);
+      color: var(--white);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(0,66,176,.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9998;
+      transition: transform .18s, box-shadow .18s;
+    }
+    #edit-fab:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(0,66,176,.5); }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 860px) {
       .hero-inner { grid-template-columns: 1fr; }
@@ -462,8 +616,9 @@
     <div class="hero-inner">
       <div class="hero-content">
         <p class="hero-handle">@kiandratrickett</p>
+        <div class="gold-creator-badge"><span class="gold-star">★</span> Gold Creator, #gifted Platform</div>
         <h1 class="hero-name">Kiandra<br>Trickett</h1>
-        <p class="hero-tagline">Authentic content creator with a loyal, engaged audience. I don't follow a niche — I follow genuine curiosity, and brands that resonate with how real people actually live.</p>
+        <p class="hero-tagline">Authentic content creator with a loyal, engaged audience. I don't follow a niche. I follow genuine curiosity, and brands that resonate with how real people actually live.</p>
         <div class="hero-stats">
           <div class="stat-pill">
             <strong>90.7K</strong>
@@ -481,13 +636,7 @@
         <a href="#contact" class="hero-cta">Work With Me</a>
       </div>
       <div class="hero-photo">
-        <!-- Replace src below with your photo path e.g. src="photo.jpg" -->
-        <div class="hero-photo-placeholder">
-          <svg width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
-          </svg>
-          Add your photo here
-        </div>
+        <img src="photo.jpg" alt="Kiandra Trickett" />
       </div>
     </div>
   </header>
@@ -503,8 +652,8 @@
       <div class="about-grid">
         <div class="about-card">
           <p class="about-bio">
-            I'm a <em>Tasmanian creator</em> with a broad, curious following who trusts my recommendations. My content spans everyday life — I talk about what I'm actually buying, using, and experiencing, which is exactly why my audience listens.<br><br>
-            I don't do scripted sell-jobs. I do <em>honest storytelling</em> that happens to drive real purchasing decisions — from $40K cars to health and wellness products.
+            I'm a <em>Tasmanian creator</em> with a broad, curious following who trusts my recommendations. My content spans everyday life. I talk about what I'm actually buying, using, and experiencing, which is exactly why my audience listens.<br><br>
+            I don't do scripted sell-jobs. I do <em>honest storytelling</em> that happens to drive real purchasing decisions, from $40K cars to health and wellness products.
           </p>
         </div>
         <div class="about-card">
@@ -531,7 +680,7 @@
         <div class="section-header">
           <p class="section-label">Proof It Converts</p>
           <h2 class="section-title">Organic content. Tangible sales.</h2>
-          <p class="section-sub">These results came from posts made purely because I wanted to share — no paid brief, no script.</p>
+          <p class="section-sub">These results came from posts made purely because I wanted to share. No paid brief, no script.</p>
         </div>
         <div class="proof-grid">
 
@@ -539,7 +688,7 @@
             <div class="proof-card-icon">🚗</div>
             <div class="proof-result">$40,000 Sale</div>
             <p class="proof-detail">
-              Posted a casual TikTok after attending a Geely launch event — no paid partnership, no script. Despite lower view counts than usual, the video directly resulted in the sale of a 2025 Geely.
+              Posted a casual TikTok after attending a Geely launch event, with no paid partnership and no script. Despite lower view counts than usual, the video directly resulted in the sale of a 2025 Geely.
             </p>
             <span class="proof-badge">↑ Organic TikTok</span>
           </div>
@@ -547,8 +696,9 @@
           <div class="proof-card light">
             <div class="proof-card-icon">💧</div>
             <div class="proof-result">8 Orders</div>
+            <p class="proof-value-line">$1,280 upfront + $960 recurring = $2,240 total</p>
             <p class="proof-detail">
-              A single Instagram Reel drove 8 product purchases — a health &amp; wellness item with a 3-month filter replacement cycle, meaning recurring revenue generated for the brand from one post.
+              A single Instagram Reel drove 8 product purchases of a health and wellness item. At $160 per order plus a $40 monthly billing across 3 months per customer, that's $1,280 upfront and $960 in recurring revenue generated from one post.
             </p>
             <span class="proof-badge">↑ Organic Instagram Reel</span>
           </div>
@@ -571,6 +721,9 @@
 
         <!-- Featured: Geely car video -->
         <div class="video-card featured">
+          <div class="video-stats-bar">
+            <span class="view-count">👁 <span class="view-count-val">Views</span></span>
+          </div>
           <iframe
             src="https://www.tiktok.com/embed/v2/7532793010736663815?lang=en-US"
             allow="encrypted-media"
@@ -579,12 +732,16 @@
           </iframe>
           <div class="video-card-label">
             <span class="platform-dot"></span>
-            Featured — Sold a $40K Car (Organic)
+            Featured: Sold a $40K Car (Organic)
           </div>
         </div>
 
-        <!-- Top TikToks -->
-        <div class="video-card">
+        <!-- TGI Fridays Campaign -->
+        <div class="video-card tgifridays">
+          <div class="video-stats-bar">
+            <span class="view-count">👁 <span class="view-count-val">Views</span></span>
+            <span class="share-count">↗ 4,700+ Shares</span>
+          </div>
           <iframe
             src="https://www.tiktok.com/embed/v2/7510113994175188231?lang=en-US"
             allow="encrypted-media"
@@ -592,12 +749,18 @@
             loading="lazy">
           </iframe>
           <div class="video-card-label">
-            <span class="platform-dot dot-tiktok"></span>
-            TikTok
+            <span class="platform-dot"></span>
+            <div>
+              <div class="label-title">TGI Fridays, BBQ American Food Campaign</div>
+              <div class="label-sub">Featured campaign content, drove 4,700+ shares. Returned for future partnerships.</div>
+            </div>
           </div>
         </div>
 
         <div class="video-card">
+          <div class="video-stats-bar">
+            <span class="view-count">👁 <span class="view-count-val">Views</span></span>
+          </div>
           <iframe
             src="https://www.tiktok.com/embed/v2/7481175481056840978?lang=en-US"
             allow="encrypted-media"
@@ -611,6 +774,9 @@
         </div>
 
         <div class="video-card">
+          <div class="video-stats-bar">
+            <span class="view-count">👁 <span class="view-count-val">Views</span></span>
+          </div>
           <iframe
             src="https://www.tiktok.com/embed/v2/7470649796727000328?lang=en-US"
             allow="encrypted-media"
@@ -624,6 +790,9 @@
         </div>
 
         <div class="video-card">
+          <div class="video-stats-bar">
+            <span class="view-count">👁 <span class="view-count-val">Views</span></span>
+          </div>
           <iframe
             src="https://www.tiktok.com/embed/v2/7320057422985415944?lang=en-US"
             allow="encrypted-media"
@@ -637,6 +806,9 @@
         </div>
 
         <div class="video-card">
+          <div class="video-stats-bar">
+            <span class="view-count">👁 <span class="view-count-val">Views</span></span>
+          </div>
           <iframe
             src="https://www.tiktok.com/embed/v2/7299614651732593927?lang=en-US"
             allow="encrypted-media"
@@ -650,6 +822,9 @@
         </div>
 
         <div class="video-card">
+          <div class="video-stats-bar">
+            <span class="view-count">👁 <span class="view-count-val">Views</span></span>
+          </div>
           <iframe
             src="https://www.tiktok.com/embed/v2/7268400168393854226?lang=en-US"
             allow="encrypted-media"
@@ -663,6 +838,9 @@
         </div>
 
         <div class="video-card">
+          <div class="video-stats-bar">
+            <span class="view-count">👁 <span class="view-count-val">Views</span></span>
+          </div>
           <iframe
             src="https://www.tiktok.com/embed/v2/7261348509553560833?lang=en-US"
             allow="encrypted-media"
@@ -676,6 +854,9 @@
         </div>
 
         <div class="video-card">
+          <div class="video-stats-bar">
+            <span class="view-count">👁 <span class="view-count-val">Views</span></span>
+          </div>
           <iframe
             src="https://www.tiktok.com/embed/v2/7232815731358928130?lang=en-US"
             allow="encrypted-media"
@@ -689,6 +870,9 @@
         </div>
 
         <div class="video-card">
+          <div class="video-stats-bar">
+            <span class="view-count">👁 <span class="view-count-val">Views</span></span>
+          </div>
           <iframe
             src="https://www.tiktok.com/embed/v2/7224018452346965249?lang=en-US"
             allow="encrypted-media"
@@ -703,6 +887,9 @@
 
         <!-- Instagram Reel (8 orders) -->
         <div class="video-card">
+          <div class="video-stats-bar">
+            <span class="view-count">👁 <span class="view-count-val">Views</span></span>
+          </div>
           <iframe
             src="https://www.instagram.com/reel/DNaSZTDTSJw/embed/"
             allow="encrypted-media"
@@ -712,7 +899,7 @@
           </iframe>
           <div class="video-card-label">
             <span class="platform-dot dot-instagram"></span>
-            Instagram — 8 Product Orders
+            Instagram: 8 Product Orders, $2,240 Value
           </div>
         </div>
 
@@ -726,7 +913,7 @@
       <div class="section-header">
         <p class="section-label">Services</p>
         <h2 class="section-title">What I offer</h2>
-        <p class="section-sub">Open to both posting on my own channels and creating content for yours. Flat fee or contra — let's chat.</p>
+        <p class="section-sub">Open to both posting on my own channels and creating content for yours. Flat fee or contra, let's chat.</p>
       </div>
       <div class="services-grid">
 
@@ -739,13 +926,13 @@
         <div class="service-card">
           <div class="service-icon">🎬</div>
           <h3 class="service-name">UGC Content</h3>
-          <p class="service-desc">Raw, camera-ready video assets delivered directly for your brand's own channels, ads, or paid promotion — no posting to my feed required.</p>
+          <p class="service-desc">Raw, camera-ready video assets delivered directly for your brand's own channels, ads, or paid promotion. No posting to my feed required.</p>
         </div>
 
         <div class="service-card">
           <div class="service-icon">🌀</div>
           <h3 class="service-name">Instagram Stories</h3>
-          <p class="service-desc">Swipe-up style storytelling designed for direct engagement and link-driven traffic. Short-form and personal — the format audiences trust most.</p>
+          <p class="service-desc">Swipe-up style storytelling designed for direct engagement and link-driven traffic. Short-form and personal, the format audiences trust most.</p>
         </div>
 
       </div>
@@ -771,6 +958,88 @@
       <span class="contact-service-pill">Instagram Stories</span>
     </div>
   </footer>
+
+  <!-- Edit Mode Toolbar -->
+  <div id="edit-toolbar">
+    <div class="edit-toolbar-info">
+      <span class="edit-pulse"></span>
+      Edit Mode Active, click any text to edit
+    </div>
+    <button class="edit-toolbar-btn" onclick="downloadPage()">Download Updated Page</button>
+    <button class="edit-toolbar-btn danger" onclick="exitEditMode()">Exit Edit Mode</button>
+  </div>
+
+  <!-- Floating Edit Button -->
+  <button id="edit-fab" title="Edit Page" onclick="promptEdit()">
+    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"/>
+    </svg>
+  </button>
+
+  <script>
+    const EDIT_SELECTORS = [
+      '.hero-handle', '.hero-name', '.hero-tagline',
+      '.gold-creator-badge',
+      '.about-bio',
+      '.section-title', '.section-sub', '.section-label',
+      '.proof-result', '.proof-value-line', '.proof-detail',
+      '.service-name', '.service-desc',
+      '.video-card-label', '.view-count-val', '.label-title', '.label-sub',
+      '.contact-note'
+    ];
+
+    function promptEdit() {
+      const pw = window.prompt('Enter edit password:');
+      if (pw === null) return;
+      if (pw === 'UGC2026!') {
+        enterEditMode();
+      } else {
+        window.alert('Incorrect password. Please try again.');
+      }
+    }
+
+    function enterEditMode() {
+      document.body.classList.add('edit-mode');
+      EDIT_SELECTORS.forEach(function(sel) {
+        document.querySelectorAll(sel).forEach(function(el) {
+          el.contentEditable = 'true';
+          el.spellcheck = true;
+        });
+      });
+      document.getElementById('edit-toolbar').style.display = 'flex';
+    }
+
+    function exitEditMode() {
+      document.body.classList.remove('edit-mode');
+      EDIT_SELECTORS.forEach(function(sel) {
+        document.querySelectorAll(sel).forEach(function(el) {
+          el.contentEditable = 'false';
+        });
+      });
+      document.getElementById('edit-toolbar').style.display = 'none';
+    }
+
+    function downloadPage() {
+      var clone = document.documentElement.cloneNode(true);
+      clone.body.classList.remove('edit-mode');
+      clone.querySelectorAll('[contenteditable]').forEach(function(el) {
+        el.removeAttribute('contenteditable');
+        el.removeAttribute('spellcheck');
+      });
+      var toolbar = clone.querySelector('#edit-toolbar');
+      if (toolbar) toolbar.style.display = 'none';
+      var html = '<!DOCTYPE html>\n' + clone.outerHTML;
+      var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'index.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  </script>
 
 </body>
 </html>
