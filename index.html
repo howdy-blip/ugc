@@ -652,7 +652,13 @@
         <a href="#contact" class="hero-cta">Work With Me</a>
       </div>
       <div class="hero-photo">
-        <img src="photo.jpg" alt="Kiandra Trickett" />
+        <img src="photo.jpg" alt="Kiandra Trickett" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+        <div class="hero-photo-placeholder" style="display:none">
+          <svg width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+          </svg>
+          <span>Add Photo</span>
+        </div>
       </div>
     </div>
   </header>
@@ -1050,16 +1056,21 @@
       });
       var toolbar = clone.querySelector('#edit-toolbar');
       if (toolbar) toolbar.style.display = 'none';
+      var fab = clone.querySelector('#edit-fab');
+      if (fab) fab.style.display = 'none';
       var html = '<!DOCTYPE html>\n' + clone.outerHTML;
       var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
       var url = URL.createObjectURL(blob);
       var a = document.createElement('a');
       a.href = url;
       a.download = 'index.html';
+      a.style.display = 'none';
       document.body.appendChild(a);
       a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      setTimeout(function() {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 200);
     }
   </script>
 
