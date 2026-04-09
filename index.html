@@ -1051,7 +1051,7 @@
 
     function buildCleanHtml() {
       var clone = document.documentElement.cloneNode(true);
-      clone.body.classList.remove('edit-mode');
+      clone.querySelector('body').classList.remove('edit-mode');
       clone.querySelectorAll('[contenteditable]').forEach(function(el) {
         el.removeAttribute('contenteditable');
         el.removeAttribute('spellcheck');
