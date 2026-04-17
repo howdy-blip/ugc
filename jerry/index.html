@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jerry — Building Calculators</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #0f1117;
+      --surface:     #1a1d27;
+      --surface-2:   #22263a;
+      --border:      #2e334d;
+      --accent:      #4f7bff;
+      --accent-glow: rgba(79,123,255,.18);
+      --accent-dim:  #2a4ab3;
+      --green:       #22c55e;
+      --amber:       #f59e0b;
+      --red:         #ef4444;
+      --text:        #e8eaf6;
+      --muted:       #6b748f;
+      --radius:      14px;
+      --radius-lg:   22px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── HEADER ── */
+    header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 32px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .logo-mark {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dim));
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 18px;
+      color: #fff;
+      letter-spacing: -.5px;
+    }
+
+    .logo-name {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .logo-tag {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    header .spacer { flex: 1; }
+
+    .header-badge {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+      background: var(--accent-glow);
+      border: 1px solid rgba(79,123,255,.3);
+      border-radius: 20px;
+      padding: 4px 12px;
+      letter-spacing: .04em;
+    }
+
+    /* ── LAYOUT ── */
+    .layout {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: 220px;
+      flex-shrink: 0;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 24px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .sidebar-section {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 0 10px;
+      margin: 8px 0 6px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background .15s, color .15s;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--muted);
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+    }
+
+    .nav-item:hover { background: var(--surface-2); color: var(--text); }
+
+    .nav-item.active {
+      background: var(--accent-glow);
+      color: var(--accent);
+    }
+
+    .nav-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      background: var(--surface-2);
+      display: grid;
+      place-items: center;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+
+    .nav-item.active .nav-icon {
+      background: var(--accent-glow);
+    }
+
+    .nav-item.coming-soon {
+      opacity: .45;
+      cursor: default;
+    }
+
+    .pill {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      background: var(--surface-2);
+      color: var(--muted);
+      border-radius: 20px;
+      padding: 2px 7px;
+      margin-left: auto;
+    }
+
+    /* ── MAIN ── */
+    main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 36px 40px;
+    }
+
+    .calc-header {
+      margin-bottom: 32px;
+    }
+
+    .calc-title {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -.5px;
+    }
+
+    .calc-subtitle {
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    /* ── GRID ── */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    /* ── FORM ── */
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .input-wrap {
+      display: flex;
+      align-items: center;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      transition: border-color .15s;
+      overflow: hidden;
+    }
+
+    .input-wrap:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .input-wrap input {
+      flex: 1;
+      background: none;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 500;
+      padding: 10px 14px;
+    }
+
+    .input-unit {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      padding: 0 12px 0 0;
+      white-space: nowrap;
+    }
+
+    .toggle-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+
+    .toggle-btn {
+      flex: 1;
+      padding: 8px;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      background: none;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .15s;
+      letter-spacing: .03em;
+    }
+
+    .toggle-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 18px 0;
+    }
+
+    /* ── RESULTS ── */
+    .result-item {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .result-item:last-child { border-bottom: none; }
+
+    .result-label {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .result-value {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .result-value small {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+      margin-left: 3px;
+    }
+
+    /* ── COMPLIANCE ── */
+    .compliance-card {
+      margin-top: 20px;
+    }
+
+    .compliance-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .compliance-item:last-child { border-bottom: none; }
+
+    .badge {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .badge.pass { background: rgba(34,197,94,.15); color: var(--green); }
+    .badge.warn { background: rgba(245,158,11,.15); color: var(--amber); }
+    .badge.fail { background: rgba(239,68,68,.15); color: var(--red); }
+
+    .compliance-rule { flex: 1; color: var(--muted); }
+    .compliance-val  { font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; }
+
+    /* ── DIAGRAM ── */
+    .diagram-wrap {
+      background: var(--bg);
+      border-radius: var(--radius);
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 220px;
+      margin-top: 20px;
+    }
+
+    #stair-svg { max-width: 100%; height: auto; }
+
+    /* ── SUMMARY CHIPS ── */
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .chip-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+      gap: 10px;
+    }
+
+    .empty-icon { font-size: 36px; opacity: .4; }
+    .empty-text { font-size: 13px; font-weight: 500; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      main { padding: 24px 20px; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .grid-3 { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .grid-3 { grid-template-columns: 1fr; }
+    }
+
+    /* ── UTILS ── */
+    .mt-4  { margin-top: 16px; }
+    .mt-6  { margin-top: 24px; }
+    .color-green { color: var(--green); }
+    .color-amber { color: var(--amber); }
+    .color-red   { color: var(--red); }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a class="logo" href="#">
+    <div class="logo-mark">J</div>
+    <div>
+      <div class="logo-name">Jerry</div>
+      <div class="logo-tag">Building Calculators</div>
+    </div>
+  </a>
+  <div class="spacer"></div>
+  <div class="header-badge">v1.0</div>
+</header>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sidebar-section">Calculators</div>
+
+    <button class="nav-item active" onclick="showCalc('stairs')">
+      <div class="nav-icon">🪜</div>
+      Stairs
+    </button>
+
+    <button class="nav-item coming-soon">
+      <div class="nav-icon">🏗️</div>
+      Beams
+      <span class="pill">Soon</span>
+    </button>
+
+    <button class="nav-item coming-soon">
+      <div class="nav-icon">🧱</div>
+      Footings
+      <span class="pill">Soon</span>
+    </button>
+
+    <button class="nav-item coming-soon">
+      <div class="nav-icon">🔩</div>
+      Fixings
+      <span class="pill">Soon</span>
+    </button>
+
+    <button class="nav-item coming-soon">
+      <div class="nav-icon">📐</div>
+      Roof Pitch
+      <span class="pill">Soon</span>
+    </button>
+
+    <button class="nav-item coming-soon">
+      <div class="nav-icon">🪟</div>
+      Openings
+      <span class="pill">Soon</span>
+    </button>
+  </nav>
+
+  <!-- MAIN -->
+  <main id="main-content">
+    <!-- Stairs calculator rendered by JS -->
+  </main>
+
+</div>
+
+<script>
+// ── CALCULATOR REGISTRY ──────────────────────────────────────────────────────
+// Each calculator is a self-contained module object with:
+//   render()  → returns HTML string
+//   init()    → called after HTML is injected, wires up events
+// ─────────────────────────────────────────────────────────────────────────────
+
+const CALCS = {};
+
+// ── STAIRS CALCULATOR ────────────────────────────────────────────────────────
+CALCS.stairs = {
+  _unit: 'mm',   // 'mm' | 'in'
+  _mode: 'rise', // 'rise' (total rise input) | 'steps' (num steps input)
+
+  render() {
+    return `
+    <div class="calc-header">
+      <h1 class="calc-title">🪜 Stair Calculator</h1>
+      <p class="calc-subtitle">Calculate risers, treads, stringer length and check NCC/BCA compliance.</p>
+    </div>
+
+    <div class="grid-2">
+
+      <!-- LEFT: INPUTS -->
+      <div>
+        <div class="card">
+          <div class="card-title">Inputs</div>
+
+          <!-- Unit toggle -->
+          <div class="toggle-row">
+            <button class="toggle-btn active" id="unit-mm" onclick="CALCS.stairs.setUnit('mm')">Metric (mm)</button>
+            <button class="toggle-btn" id="unit-in" onclick="CALCS.stairs.setUnit('in')">Imperial (in)</button>
+          </div>
+
+          <!-- Mode toggle -->
+          <div class="toggle-row">
+            <button class="toggle-btn active" id="mode-rise" onclick="CALCS.stairs.setMode('rise')">From total rise</button>
+            <button class="toggle-btn" id="mode-steps" onclick="CALCS.stairs.setMode('steps')">From step count</button>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- Total Rise -->
+          <div class="field">
+            <label>Total Rise (floor to floor)</label>
+            <div class="input-wrap">
+              <input type="number" id="inp-total-rise" placeholder="2700" min="0" oninput="CALCS.stairs.calc()">
+              <span class="input-unit" id="unit-label-rise">mm</span>
+            </div>
+          </div>
+
+          <!-- Mode: total run OR num steps -->
+          <div id="mode-run-field">
+            <div class="field">
+              <label>Total Run (horizontal span) — optional</label>
+              <div class="input-wrap">
+                <input type="number" id="inp-total-run" placeholder="Leave blank to auto-calc" min="0" oninput="CALCS.stairs.calc()">
+                <span class="input-unit" id="unit-label-run">mm</span>
+              </div>
+            </div>
+          </div>
+
+          <div id="mode-steps-field" style="display:none">
+            <div class="field">
+              <label>Number of Risers</label>
+              <div class="input-wrap">
+                <input type="number" id="inp-num-steps" placeholder="14" min="1" max="100" oninput="CALCS.stairs.calc()">
+                <span class="input-unit">risers</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- Preferred riser -->
+          <div class="field">
+            <label>Preferred Riser Height</label>
+            <div class="input-wrap">
+              <input type="number" id="inp-pref-rise" placeholder="175" min="0" oninput="CALCS.stairs.calc()">
+              <span class="input-unit" id="unit-label-pr">mm</span>
+            </div>
+          </div>
+
+          <!-- Preferred going -->
+          <div class="field">
+            <label>Preferred Going (tread depth)</label>
+            <div class="input-wrap">
+              <input type="number" id="inp-pref-going" placeholder="280" min="0" oninput="CALCS.stairs.calc()">
+              <span class="input-unit" id="unit-label-pg">mm</span>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- Stair type -->
+          <div class="field">
+            <label>Stair Type</label>
+            <div class="toggle-row">
+              <button class="toggle-btn active" id="type-res" onclick="CALCS.stairs.setType('residential')">Residential</button>
+              <button class="toggle-btn" id="type-com" onclick="CALCS.stairs.setType('commercial')">Commercial</button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Compliance -->
+        <div class="card mt-6 compliance-card">
+          <div class="card-title">NCC Compliance Check</div>
+          <div id="compliance-output">
+            <div class="empty-state">
+              <div class="empty-icon">📋</div>
+              <div class="empty-text">Enter a total rise to check compliance</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: RESULTS + DIAGRAM -->
+      <div>
+        <div class="card">
+          <div class="card-title">Results</div>
+          <div id="results-output">
+            <div class="empty-state">
+              <div class="empty-icon">📐</div>
+              <div class="empty-text">Enter dimensions to see results</div>
+            </div>
+          </div>
+          <div id="chips-output"></div>
+        </div>
+
+        <div class="card mt-6">
+          <div class="card-title">Diagram</div>
+          <div class="diagram-wrap">
+            <svg id="stair-svg" viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg">
+              <text x="200" y="120" text-anchor="middle" fill="#6b748f" font-family="Inter,sans-serif" font-size="14">Enter values to generate diagram</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    `;
+  },
+
+  init() {
+    this._unit = 'mm';
+    this._mode = 'rise';
+    this._type = 'residential';
+  },
+
+  setUnit(u) {
+    this._unit = u;
+    document.getElementById('unit-mm').classList.toggle('active', u === 'mm');
+    document.getElementById('unit-in').classList.toggle('active', u === 'in');
+    const lbl = u === 'mm' ? 'mm' : 'in';
+    ['unit-label-rise','unit-label-run','unit-label-pr','unit-label-pg'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = lbl;
+    });
+    this.calc();
+  },
+
+  setMode(m) {
+    this._mode = m;
+    document.getElementById('mode-rise').classList.toggle('active', m === 'rise');
+    document.getElementById('mode-steps').classList.toggle('active', m === 'steps');
+    document.getElementById('mode-run-field').style.display  = m === 'rise'  ? '' : 'none';
+    document.getElementById('mode-steps-field').style.display = m === 'steps' ? '' : 'none';
+    this.calc();
+  },
+
+  setType(t) {
+    this._type = t;
+    document.getElementById('type-res').classList.toggle('active', t === 'residential');
+    document.getElementById('type-com').classList.toggle('active', t === 'commercial');
+    this.calc();
+  },
+
+  // Convert input → mm for calculation
+  toMM(v) {
+    return this._unit === 'in' ? v * 25.4 : v;
+  },
+
+  // Format output from mm
+  fmt(mm) {
+    if (this._unit === 'in') {
+      const inches = mm / 25.4;
+      return inches.toFixed(2);
+    }
+    return Math.round(mm).toString();
+  },
+
+  unitStr() { return this._unit === 'mm' ? 'mm' : 'in'; },
+
+  calc() {
+    const rawRise  = parseFloat(document.getElementById('inp-total-rise')?.value);
+    const rawRun   = parseFloat(document.getElementById('inp-total-run')?.value);
+    const rawSteps = parseFloat(document.getElementById('inp-num-steps')?.value);
+    const rawPR    = parseFloat(document.getElementById('inp-pref-rise')?.value);
+    const rawPG    = parseFloat(document.getElementById('inp-pref-going')?.value);
+
+    if (!rawRise || rawRise <= 0) {
+      this._clearOutputs();
+      return;
+    }
+
+    const totalRiseMM  = this.toMM(rawRise);
+    const prefRiseMM   = !isNaN(rawPR)  && rawPR  > 0 ? this.toMM(rawPR)  : 175;
+    const prefGoingMM  = !isNaN(rawPG)  && rawPG  > 0 ? this.toMM(rawPG)  : 280;
+
+    // ── Calculate number of risers ──
+    let numRisers;
+    if (this._mode === 'steps' && !isNaN(rawSteps) && rawSteps >= 1) {
+      numRisers = Math.round(rawSteps);
+    } else {
+      numRisers = Math.round(totalRiseMM / prefRiseMM);
+      if (numRisers < 1) numRisers = 1;
+    }
+
+    const actualRiserMM = totalRiseMM / numRisers;
+
+    // ── Treads = risers - 1 (top landing doesn't need a tread) ──
+    const numTreads = numRisers - 1;
+
+    // ── Going (tread depth) ──
+    let goingMM;
+    if (this._mode === 'rise' && !isNaN(rawRun) && rawRun > 0) {
+      const totalRunMM = this.toMM(rawRun);
+      goingMM = totalRunMM / numTreads;
+    } else {
+      // Use the 2R + G rule with preferred values, clamped to code
+      goingMM = prefGoingMM;
+    }
+
+    const totalRunMM = goingMM * numTreads;
+
+    // ── Stringer length (Pythagorean) ──
+    const stringerMM = Math.sqrt(totalRiseMM ** 2 + totalRunMM ** 2);
+
+    // ── Angle ──
+    const angleDeg = Math.atan2(totalRiseMM, totalRunMM) * (180 / Math.PI);
+
+    // ── 2R + G ratio ──
+    const rg = 2 * actualRiserMM + goingMM;
+
+    // ── Render ──
+    this._renderResults({ numRisers, numTreads, actualRiserMM, goingMM, totalRunMM, totalRiseMM, stringerMM, angleDeg, rg });
+    this._renderCompliance({ actualRiserMM, goingMM, angleDeg, rg });
+    this._renderDiagram({ numRisers, numTreads, actualRiserMM, goingMM, totalRiseMM, totalRunMM, angleDeg, stringerMM });
+  },
+
+  _clearOutputs() {
+    document.getElementById('results-output').innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">📐</div>
+        <div class="empty-text">Enter dimensions to see results</div>
+      </div>`;
+    document.getElementById('compliance-output').innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">📋</div>
+        <div class="empty-text">Enter a total rise to check compliance</div>
+      </div>`;
+    document.getElementById('chips-output').innerHTML = '';
+    document.getElementById('stair-svg').innerHTML = `<text x="200" y="120" text-anchor="middle" fill="#6b748f" font-family="Inter,sans-serif" font-size="14">Enter values to generate diagram</text>`;
+  },
+
+  _renderResults({ numRisers, numTreads, actualRiserMM, goingMM, totalRunMM, totalRiseMM, stringerMM, angleDeg, rg }) {
+    const u = this.unitStr();
+    const rows = [
+      ['Number of Risers',   `${numRisers}`,                      'risers'],
+      ['Number of Treads',   `${numTreads}`,                      'treads'],
+      ['Riser Height',       this.fmt(actualRiserMM),             u],
+      ['Going (Tread Depth)',this.fmt(goingMM),                   u],
+      ['Total Run',          this.fmt(totalRunMM),                u],
+      ['Total Rise',         this.fmt(totalRiseMM),               u],
+      ['Stringer Length',    this.fmt(stringerMM),                u],
+      ['Stair Angle',        angleDeg.toFixed(1),                 '°'],
+      ['2R + G Ratio',       Math.round(rg),                      u],
+    ];
+    document.getElementById('results-output').innerHTML = rows.map(([label, val, unit]) => `
+      <div class="result-item">
+        <span class="result-label">${label}</span>
+        <span class="result-value">${val}<small>${unit}</small></span>
+      </div>`).join('');
+
+    // Chips summary
+    document.getElementById('chips-output').innerHTML = `
+      <div class="chips">
+        <div class="chip"><div class="chip-dot"></div>${numRisers} risers @ ${this.fmt(actualRiserMM)}${u}</div>
+        <div class="chip"><div class="chip-dot"></div>${numTreads} treads @ ${this.fmt(goingMM)}${u}</div>
+        <div class="chip"><div class="chip-dot"></div>${angleDeg.toFixed(1)}° pitch</div>
+        <div class="chip"><div class="chip-dot"></div>${this.fmt(stringerMM)}${u} stringer</div>
+      </div>`;
+  },
+
+  _renderCompliance({ actualRiserMM, goingMM, angleDeg, rg }) {
+    // NCC/BCA 2022 limits
+    const rules = this._type === 'residential'
+      ? [
+          { label: 'Riser height',    min: 115, max: 190, val: actualRiserMM, fmt: v => `${this.fmt(v)}${this.unitStr()}` },
+          { label: 'Going (tread)',   min: 240, max: 355, val: goingMM,        fmt: v => `${this.fmt(v)}${this.unitStr()}` },
+          { label: '2R + G ratio',    min: 550, max: 700, val: rg,             fmt: v => `${Math.round(v)}${this.unitStr()}` },
+          { label: 'Stair angle',     min: 0,   max: 42,  val: angleDeg,       fmt: v => `${v.toFixed(1)}°`  },
+        ]
+      : [
+          { label: 'Riser height',    min: 115, max: 180, val: actualRiserMM, fmt: v => `${this.fmt(v)}${this.unitStr()}` },
+          { label: 'Going (tread)',   min: 250, max: 355, val: goingMM,        fmt: v => `${this.fmt(v)}${this.unitStr()}` },
+          { label: '2R + G ratio',    min: 550, max: 700, val: rg,             fmt: v => `${Math.round(v)}${this.unitStr()}` },
+          { label: 'Stair angle',     min: 0,   max: 38,  val: angleDeg,       fmt: v => `${v.toFixed(1)}°`  },
+        ];
+
+    document.getElementById('compliance-output').innerHTML = rules.map(r => {
+      const pass = r.val >= r.min && r.val <= r.max;
+      const near = !pass && (r.val >= r.min * .9 && r.val <= r.max * 1.1);
+      const cls  = pass ? 'pass' : near ? 'warn' : 'fail';
+      const icon = pass ? '✓' : near ? '!' : '✗';
+      const rangeStr = r.max < 1000
+        ? ` (${this._type === 'residential' ? 'NCC Res' : 'NCC Com'}: ${r.min}–${r.max}${r.fmt(r.min).replace(/[\d.]+/, '')})`
+        : '';
+      return `
+        <div class="compliance-item">
+          <div class="badge ${cls}">${icon}</div>
+          <div class="compliance-rule">${r.label}${rangeStr}</div>
+          <div class="compliance-val ${cls === 'fail' ? 'color-red' : cls === 'warn' ? 'color-amber' : 'color-green'}">${r.fmt(r.val)}</div>
+        </div>`;
+    }).join('');
+  },
+
+  _renderDiagram({ numRisers, numTreads, actualRiserMM, goingMM, totalRiseMM, totalRunMM, angleDeg, stringerMM }) {
+    const W = 400, H = 240;
+    const pad = 44;
+    const availW = W - pad * 2;
+    const availH = H - pad * 2 - 20;
+
+    // Scale so stair fits
+    const scaleX = availW / totalRunMM;
+    const scaleY = availH / totalRiseMM;
+    const scale  = Math.min(scaleX, scaleY);
+
+    const sw = totalRunMM * scale;
+    const sh = totalRiseMM * scale;
+    const ox = pad + (availW - sw) / 2;
+    const oy = pad + (availH - sh) / 2 + sh; // bottom-left origin
+
+    const rw = goingMM  * scale;
+    const rh = actualRiserMM * scale;
+
+    let path = `M ${ox} ${oy}`;
+    for (let i = 0; i < numRisers; i++) {
+      const x = ox + i * rw;
+      const y = oy - i * rh;
+      path += ` L ${x} ${y - rh}`;
+      if (i < numTreads) path += ` L ${x + rw} ${y - rh}`;
+    }
+
+    // Stringer underline
+    const sx1 = ox, sy1 = oy;
+    const sx2 = ox + sw, sy2 = oy - sh;
+
+    const accentC = '#4f7bff';
+    const muteC   = '#2e334d';
+    const textC   = '#6b748f';
+    const riserC  = '#22c55e';
+
+    // Dimension annotation helpers
+    const dimRise  = `↕ ${this.fmt(actualRiserMM)}${this.unitStr()}`;
+    const dimGoing = `↔ ${this.fmt(goingMM)}${this.unitStr()}`;
+
+    let svg = `
+      <!-- Ground line -->
+      <line x1="${ox - 10}" y1="${oy}" x2="${ox + sw + 10}" y2="${oy}" stroke="${muteC}" stroke-width="1.5"/>
+
+      <!-- Stringer -->
+      <line x1="${sx1}" y1="${sy1}" x2="${sx2}" y2="${sy2}" stroke="${accentC}" stroke-width="1.5" stroke-dasharray="5,3" opacity=".5"/>
+
+      <!-- Stair profile -->
+      <path d="${path}" fill="none" stroke="${accentC}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+
+      <!-- Vertical riser highlight (first riser) -->
+      <line x1="${ox}" y1="${oy}" x2="${ox}" y2="${oy - rh}" stroke="${riserC}" stroke-width="2" opacity=".7"/>
+
+      <!-- Dimension: riser -->
+      <text x="${ox - 8}" y="${oy - rh / 2}" text-anchor="end" fill="${textC}" font-family="Inter,sans-serif" font-size="10" font-weight="600">${this.fmt(actualRiserMM)}</text>
+
+      <!-- Dimension: going (first tread) -->
+      <text x="${ox + rw / 2}" y="${oy + 14}" text-anchor="middle" fill="${textC}" font-family="Inter,sans-serif" font-size="10" font-weight="600">${this.fmt(goingMM)}</text>
+
+      <!-- Label: total rise -->
+      <text x="${ox + sw + 12}" y="${oy - sh / 2}" text-anchor="start" fill="${accentC}" font-family="Inter,sans-serif" font-size="11" font-weight="700">Rise</text>
+      <text x="${ox + sw + 12}" y="${oy - sh / 2 + 13}" text-anchor="start" fill="${textC}" font-family="Inter,sans-serif" font-size="10">${this.fmt(totalRiseMM)}${this.unitStr()}</text>
+
+      <!-- Label: total run -->
+      <text x="${ox + sw / 2}" y="${oy + 28}" text-anchor="middle" fill="${accentC}" font-family="Inter,sans-serif" font-size="11" font-weight="700">Run: ${this.fmt(totalRunMM)}${this.unitStr()}</text>
+
+      <!-- Label: angle -->
+      <text x="${ox + 14}" y="${oy - 8}" fill="${textC}" font-family="Inter,sans-serif" font-size="10">${angleDeg.toFixed(1)}°</text>
+    `;
+
+    document.getElementById('stair-svg').innerHTML = svg;
+  },
+};
+
+// ── APP SHELL ────────────────────────────────────────────────────────────────
+function showCalc(name) {
+  const calc = CALCS[name];
+  if (!calc) return;
+
+  document.querySelectorAll('.nav-item').forEach(el => {
+    el.classList.toggle('active', el.getAttribute('onclick') === `showCalc('${name}')`);
+  });
+
+  const main = document.getElementById('main-content');
+  main.innerHTML = calc.render();
+  calc.init();
+}
+
+// Boot
+showCalc('stairs');
+</script>
+</body>
+</html>
